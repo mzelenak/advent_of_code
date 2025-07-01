@@ -15,7 +15,7 @@ this_dir = pathlib.Path(__file__).parent.resolve()
     ],
 )
 def test_read_file(filename, expected):
-    assert pp.read_input(str(this_dir / filename)) == [str(x) for x in expected]
+    assert pp.read_input(this_dir / filename) == [str(x) for x in expected]
 
 
 @pytest.mark.parametrize(
@@ -25,5 +25,7 @@ def test_read_file(filename, expected):
         ("input_test_2.txt", 6, 22),
     ],
 )
-def test_main(filename, blinks, expected):
-    assert pp.main([str(this_dir / filename), blinks]) == expected
+@pytest.mark.parametrize("solution", [pp.solution1, pp.solution2])
+def test_solutions(filename, blinks, expected, solution):
+    stones = pp.read_input(this_dir / filename)
+    assert solution(stones, blinks) == expected
