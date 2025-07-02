@@ -51,10 +51,17 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     if len(argv) != 2:
-        raise RuntimeError("missing arg: <input file> <n_blinks>")
+        print(
+            "Usage: python plutonian_pebbles.py <input file> <n_blinks>",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     input_file = argv[0]
     n_blinks = int(argv[1])
+    assert n_blinks >= 0, "n_blinks must be a non-negative integer"
     stones = read_input(input_file)
+    assert stones, "no stones provided in the input file"
+    assert all(stone.isdigit() for stone in stones), "all stones must be non-negative integers"
     # print(solution1(stones, n_blinks))
     print(solution2(stones, n_blinks))
 
